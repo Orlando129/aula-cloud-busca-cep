@@ -1,12 +1,12 @@
 // Sistema de Logs para aplicação de busca CEP
 
 // Função para salvar log no localStorage
-function salvarLog(tipoConsulta, parametros, resultado, status = 'sucesso') {
+function salvarLog(tipoConsulta, parametros, resultado, status = 'sucesso', url = '') {
     const agora = new Date();
     const timeStamp = agora.toLocaleString('pt-BR');
     
     const novoLog = {
-        id: Date.now(), // ID único baseado no timestamp
+        url: url, // URL da consulta realizada
         timestamp: timeStamp,
         tipo: tipoConsulta, // 'CEP' ou 'RUA'
         parametros: parametros,
@@ -99,6 +99,7 @@ function carregarLogs() {
                             <div class="col s12">
                                 <p><strong>Consulta:</strong> ${parametrosTexto}</p>
                                 <p><strong>Resultado:</strong> ${resultadoTexto}</p>
+                                ${log.url ? `<p><strong>URL:</strong> <a href="${log.url}" target="_blank" class="blue-text">${log.url}</a></p>` : ''}
                             </div>
                         </div>
                     </div>

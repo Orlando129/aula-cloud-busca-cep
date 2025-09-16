@@ -32,7 +32,7 @@
           // Verifica se a API retornou erro (CEP inválido ou não encontrado)
           if (dados.erro) {
             // Registra o erro no sistema de logs da aplicação
-            salvarLog('CEP', { cep: cep }, 'CEP não encontrado', 'erro');
+            salvarLog('CEP', { cep: cep }, 'CEP não encontrado', 'erro', url);
             alert('CEP não encontrado!');
             return;
           }
@@ -50,13 +50,13 @@
             bairro: dados.bairro,
             localidade: dados.localidade,
             uf: dados.uf
-          }, 'sucesso');
+          }, 'sucesso', url);
         })
         .catch((error) => {
           // Captura qualquer erro que possa ocorrer durante a requisição
           console.error('Erro na consulta:', error);
           // Registra o erro no sistema de logs
-          salvarLog('CEP', { cep: cep }, 'Erro na consulta: ' + error.message, 'erro');
+          salvarLog('CEP', { cep: cep }, 'Erro na consulta: ' + error.message, 'erro', url);
           // Mostra mensagem de erro para o usuário
           alert('Erro ao buscar CEP. Verifique sua conexão.');
         })

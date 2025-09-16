@@ -37,7 +37,7 @@ function buscaRua() {
               estado: estado, 
               cidade: cidade, 
               rua: rua 
-            }, 'Nenhum resultado encontrado', 'erro');
+            }, 'Nenhum resultado encontrado', 'erro', url);
             
             // Exibe mensagem de erro na interface do usuário
             listaRuas.innerHTML = '<div class="card-panel red lighten-4"><p>Nenhum resultado encontrado.</p></div>';
@@ -76,7 +76,7 @@ function buscaRua() {
               rua: rua 
             }, { 
               quantidade: ruas.length 
-            }, 'sucesso');
+            }, 'sucesso', url);
             
           }, 2000);
         })
@@ -89,7 +89,7 @@ function buscaRua() {
             estado: estado, 
             cidade: cidade, 
             rua: rua 
-          }, 'Erro na consulta: ' + error.message, 'erro');
+          }, 'Erro na consulta: ' + error.message, 'erro', url);
           
           // Exibe mensagem de erro na interface
           let listaRuas = document.querySelector("#lista-ruas")
