@@ -26,8 +26,28 @@
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
   </nav>
+
+
+  <!-- loading -->
+  <div class="loading center">
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
+
 
 
   <!-- loading -->
@@ -53,6 +73,7 @@
             <ul class="tabs">
               <li class="tab col s3"><a href="#test1">CEP</a></li>
               <li class="tab col s3"><a class="active" href="#test2">RUA</a></li>
+              <li class="tab col s3"><a href="#test3">LOGS</a></li>
             </ul>
           </div>
           <!-- tab do cep -->
@@ -62,12 +83,7 @@
             <input type="number" placeholder="Digite seu CEP" name="cep" id="cep">
             <!-- <button >Buscar</button> -->
             <a onclick="buscaCepFetch()" class="waves-effect waves-light btn"><i
-                class="material-icons left">search</i>Buscar Fetch</a>
-            <a onclick="buscaCepAjax()" class="waves-effect waves-light btn"><i
-                class="material-icons left">search</i>Buscar
-              Ajax</a>
-            <a onclick="buscaCepAxios()" class="waves-effect waves-light btn"><i
-                class="material-icons left">search</i>Buscar Axios oi</a>
+                class="material-icons left">search</i>Buscar</a>
             <ul class="collection">
               <li class="collection-item">RUA: <span id="dadoRua"></span></li>
               <li class="collection-item">BAIRRO: <span id="dadoBairro"></span></li>
@@ -75,7 +91,10 @@
               <li class="collection-item">ESTADO: <span id="dadoEstado"></span></li>
             </ul>
 
+          <div id="lista-ruas">
+            aqui vai aparecer varias ruas
           </div>
+
 
           <!-- tab da rua -->
           <div id="test2" class="col s12">
@@ -94,11 +113,31 @@
               <a onclick="buscaRua()" class="waves-effect waves-light btn"><i
                   class="material-icons right">search</i>Enviar</a>
             </div>
-
-          </div>
             <div id="lista-ruas">
              
             </div>
+
+          </div>
+
+          <!-- tab dos logs -->
+          <div id="test3" class="col s12">
+            <div class="row">
+              <div class="col s12">
+                <h5>Histórico de Consultas</h5>
+                <div class="input-field col s6">
+                  <a onclick="limparLogs()" class="waves-effect waves-light btn red"><i
+                      class="material-icons left">delete</i>Limpar Logs</a>
+                </div>
+                <div class="input-field col s6">
+                  <a onclick="carregarLogs()" class="waves-effect waves-light btn blue"><i
+                      class="material-icons left">refresh</i>Atualizar</a>
+                </div>
+              </div>
+            </div>
+            <div id="lista-logs">
+              <!-- Os logs serão carregados aqui -->
+            </div>
+          </div>
         </div>
     </div>
   </div>
@@ -118,6 +157,7 @@
   <script src="js/rua/buscaRua.js"></script>
   <script src="js/rua/pegarEstados.js"></script>
   <script src="js/rua/pegarCidades.js"></script>
+  <script src="js/log/logs.js"></script>
   <!-- minha lógica -->
   <script>
     $(".preloader-wrapper").hide()
