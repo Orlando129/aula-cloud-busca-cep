@@ -83,12 +83,12 @@ function carregarLogs() {
         }
         
         logsHTML += `
-            <div class="card-panel ${corCard}">
+            <div class="card-panel ${corCard}" data-log-index="${logs.indexOf(log)}">
                 <div class="row valign-wrapper">
                     <div class="col s1">
                         <i class="material-icons ${corTexto}">${iconeTipo}</i>
                     </div>
-                    <div class="col s11">
+                    <div class="col s10">
                         <div class="row">
                             <div class="col s12">
                                 <span class="badge ${corTexto}">${log.tipo}</span>
@@ -103,6 +103,11 @@ function carregarLogs() {
                             </div>
                         </div>
                     </div>
+                    <div class="col s1">
+                        <a onclick="reexecutarConsulta(${logs.indexOf(log)})" class="waves-effect waves-light btn-small blue" title="Reexecutar consulta">
+                            <i class="material-icons">remove_red_eye</i>
+                        </a>
+                    </div>
                 </div>
             </div>
         `;
@@ -111,13 +116,88 @@ function carregarLogs() {
     listaLogs.innerHTML = logsHTML;
 }
 
+// Função para reexecutar uma consulta baseada no log
+function reexecutarConsulta(logIndex) {
+    const logs = recuperarLogs();
+    const log = logs[logIndex];
+    
+    if (!log) {
+        console.error('Log não encontrado');
+        return;
+    }
+    
+    // Identifica o tipo de consulta e muda para a aba correspondente
+    if (log.tipo === 'CEP') {
+        // Muda para a aba CEP
+        const tabCep = document.querySelector('a[href="#tab-cep"]');
+        if (tabCep) {
+            tabCep.click();
+        }
+        
+        // Aguarda um momento para a aba carregar e preenche o campo
+        setTimeout(() => {
+            const campoCep = document.querySelector('#cep');
+            if (campoCep) {
+                campoCep.value = log.parametros.cep;
+                // Atualiza o label do Materialize
+                M.updateTextFields();
+                // Executa a busca automaticamente
+                if (typeof buscaCepFetch === 'function') {
+                    buscaCepFetch();
+                }
+            }
+        }, 100);
+        
+    } else if (log.tipo === 'RUA') {
+        // Muda para a aba RUA
+        const tabRua = document.querySelector('a[href="#tab-rua"]');
+        if (tabRua) {
+            tabRua.click();
+        }
+        
+        // Aguarda um momento para a aba carregar e preenche os campos
+        setTimeout(() => {
+            const campoEstado = document.querySelector('#estado');
+            const campoCidade = document.querySelector('#cidade');
+            const campoRua = document.querySelector('#rua');
+            
+            if (campoEstado) {
+                campoEstado.value = log.parametros.estado;
+                // Carrega as cidades após selecionar o estado
+                if (typeof pegarCidades === 'function') {
+                    pegarCidades();
+                    // Aguarda as cidades carregarem e então seleciona a cidade
+                    setTimeout(() => {
+                        if (campoCidade) {
+                            campoCidade.value = log.parametros.cidade;
+                        }
+                    }, 1000);
+                }
+            }
+            
+            if (campoRua) {
+                campoRua.value = log.parametros.rua;
+                // Atualiza o label do Materialize
+                M.updateTextFields();
+            }
+            
+            // Executa a busca automaticamente após preencher os campos
+            setTimeout(() => {
+                if (typeof buscaRua === 'function') {
+                    buscaRua();
+                }
+            }, 1500); // Aumentado o tempo para garantir que as cidades foram carregadas
+        }, 100);
+    }
+}
+
 // Carregar logs automaticamente quando a página for carregada
 document.addEventListener('DOMContentLoaded', function() {
     // Carregar logs se a aba estiver ativa
     const tabsInstance = M.Tabs.getInstance(document.querySelector('.tabs'));
     if (tabsInstance) {
         tabsInstance.options.onShow = function(content) {
-            if (content.id === 'test3') {
+            if (content.id === 'tab-log') {
                 carregarLogs();
             }
         };
